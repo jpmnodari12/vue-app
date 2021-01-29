@@ -4,14 +4,14 @@
     <v-toolbar flat app>
       <v-toolbar-side-icon @click="drawer = !drawer" class="grey--text"></v-toolbar-side-icon>
       <v-toolbar-title class="text-uppercase grey--text">
-        <span class="font-weight-light">Todo</span>
-        <span>Ninja</span>
+        <span class="font-weight-light">IoT</span>
+        <span>TCC</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
 
       <v-btn flat color="grey" @click="logout()">
-        <span>Sign Out</span>
+        <span>Logout</span>
         <v-icon right>exit_to_app</v-icon>
       </v-btn>
     </v-toolbar>
@@ -57,7 +57,7 @@ export default {
 
       await this.$firebase.auth().signOut()
 
-      this.$router.push({ name: 'login' })
+      this.$router.push({ name: 'Login' })
 
       this.$root.$emit('Spinner::hide')
     }    

@@ -22,13 +22,13 @@ const router = new Router({
       component: Dispositivos
     },
     {
-      name: 'login',
+      name: 'Login',
       path: '/login',
       meta: { title: 'Login' },
       component: () => import(/* webpackChunkName: "login" */ './pages/login/Login')
     },
     {
-      name: 'register',
+      name: 'Register',
       path: '/register',
       meta: { title: 'Register' },
       component: () => import(/* webpackChunkName: "register" */ './pages/register/Register')
@@ -41,8 +41,8 @@ router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - Iot`
 
   //verifica o componente do estado atual da aplicação e se está logado, toma decisão de roteamento baseado nisso
-  if (!window.uid && to.name !== 'login' && to.name !== 'register') {
-    next({ name: 'login' })
+  if (!window.uid && to.name !== 'Login' && to.name !== 'Register') {
+    next({ name: 'Login' })
   } else {
     next()
   }

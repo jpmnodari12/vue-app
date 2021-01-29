@@ -15,7 +15,7 @@ import Navbar from './components/layout/Navbar'
 import Spinner from './components/global/BaseSpinner'
 
 export default {
-  components: { Navbar },
+  components: { Navbar, Spinner },
   name: 'App',
   data: () => ({ isLogged: false }),
   mounted () {
@@ -26,7 +26,7 @@ export default {
       this.isLogged = !!user
 
       //ta logado? é roteado para componente home, caso não é roteado para componente login
-      this.$router.push({ name: window.uid ? 'home' : 'login' })
+      this.$router.push({ name: window.uid ? 'dashboard' : 'login' })
 
       setTimeout(() => {
         //timeout para conseguir vizualizar o spinner de maneira adequada

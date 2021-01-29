@@ -1,50 +1,26 @@
 <template>
-  <form @submit.prevent="register" class="form-login">
-    <div class="card">
-      <div class="card-header text-center">
-        <h1 class="mb-0">Expenses</h1>
-      </div>
-      <div class="card-body">
-        <div class="form-group">
-          <input
-            required
-            type="email"
-            v-model="email"
-            placeholder="Seu endereço de e-mail"
-            class="form-control"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            required
-            type="password"
-            v-model="password"
-            placeholder="Sua senha"
-            class="form-control"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            required
-            type="password"
-            v-model="registrationPassword"
-            placeholder="Repita sua senha"
-            class="form-control"
-          />
-        </div>
-        <button class="btn btn-primary w-100" :disabled="loading">
-          <template v-if="loading">
-            Registrando...
-            <i class="fa fa-spinner fa-spin"></i>
-          </template>
-          <template v-else>
-            Registrar
-            <i class="fas fa-user-plus"></i>
-          </template>
-        </button>
-      </div>
-    </div>
-  </form>
+  <v-card class="px-4">
+      <v-card-text>
+          <v-form v-on:submit.prevent="register()">
+              <v-row>
+                  <v-col cols="12">
+                      <v-text-field required type="email" v-model="email" label="Email"></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                      <v-text-field required type="password" v-model="password" label="Senha"></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                      <v-text-field required type="password" v-model="registrationPassword" label="Confirme a senha" ></v-text-field>
+                  </v-col>
+                  <v-spacer></v-spacer>
+                  <v-col class="d-flex ml-auto" cols="12" sm="3" xsm="12">
+                      <v-btn class="primary" @submit.prevent="register()" type="submit">Register</v-btn>
+                  </v-col>
+              </v-row>
+                <router-link to="/login" class="link mt-4">Voltar ao login</router-link>
+          </v-form>
+      </v-card-text>
+  </v-card>
 </template>
 
 <style>
@@ -72,9 +48,7 @@ export default {
           const res = await this.$firebase.auth()
             .createUserWithEmailAndPassword(email, password)
 
-          window.uid = res.user.uid
-
-          this.$router.push({ name: 'home' })
+          this.$router.push({ name: 'Login' })
         } else {
           let message = 'Senhas diferentes, por favor, tente de novo.'
           this.$root.$emit('Notification::show', {

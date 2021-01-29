@@ -1,7 +1,8 @@
 <template>
-  <div class="base-spinner fa-3x" v-if="visible">
-    <i class="fas fa-circle-notch fa-spin"></i>
-  </div>
+    <v-progress-circular
+      indeterminate
+      color="primary"
+    ></v-progress-circular>
 </template>
 
 <script>
@@ -18,20 +19,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.base-spinner {
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 1000000;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--dark-medium);
-  color: var(--featured);
+<style scoped>
+.v-progress-circular {
+  margin: 1rem;
 }
 </style>
