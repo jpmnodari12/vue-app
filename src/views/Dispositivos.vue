@@ -2,38 +2,12 @@
   <div class="dispositivo">
     <h1 class="subheading grey--text">Dispositivos</h1>
 
-    <v-container class="my-5">
-
-      <v-layout row justify-start class="mb-3">
-        <v-tooltip top>
-          <v-btn small flat color="grey" @click="sortBy('title')" slot="activator">
-            <v-icon small left>folder</v-icon>
-            <span class="caption text-lowercase">By dispositivo name</span>
-          </v-btn>
-          <span>Sort by dispositivo name</span>
-        </v-tooltip>
-        <v-tooltip top>
-          <v-btn small flat color="grey" @click="sortBy('person')" slot="activator">
-            <v-icon small left>person</v-icon>
-            <span class="caption text-lowercase">By Person</span>
-          </v-btn>
-          <span>Sort by dispositivo author</span>
-        </v-tooltip>
-      </v-layout>
-      
-      <v-card flat v-for="dispositivo in dispositivos" :key="dispositivo.title">
+    <v-container class="my-5">     
+      <v-card flat v-for="dispositivo in dispositivos" :key="dispositivo.nome">
         <v-layout row wrap :class="`pa-3 dispositivo ${dispositivo.status}`">
           <v-flex xs12 md6>
-            <div class="caption grey--text">dispositivo title</div>
-            <div>{{ dispositivo.title }}</div>
-          </v-flex>
-          <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Person</div>
-            <div>{{ dispositivo.person }}</div>
-          </v-flex>
-          <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Due by</div>
-            <div>{{ dispositivo.due }}</div>
+            <div class="caption grey--text">Nome dispositivo</div>
+            <div>{{ dispositivo.nome }}</div>
           </v-flex>
           <v-flex xs2 sm4 md2>
             <div class="right">
@@ -50,20 +24,23 @@
 </template>
 
 <script>
+
 export default {
-  data() {
-    return {
-      dispositivos: [
-        { title: 'Design a new website', person: 'The Net Ninja', due: '1st Jan 2019', status: 'ongoing', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'Code up the homepage', person: 'Chun Li', due: '10th Jan 2019', status: 'complete', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'Design video thumbnails', person: 'Ryu', due: '20th Dec 2018', status: 'complete', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-        { title: 'Create a community forum', person: 'Gouken', due: '20th Oct 2018', status: 'overdue', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!'},
-      ]
-    }
+  data: () => ({
+    dispositivos: []
+  }),
+  created () {
+    this.getData()
   },
+  
   methods: {
-    sortBy(prop) {
-      this.dispositivos.sort((a,b) => a[prop] < b[prop] ? -1 : 1)
+    getData () {
+      const ref = this.$firebase.database().ref(`/${window.uid}/Dispositivos`)
+
+      ref.on('value', snapshot => {
+        const values = snapshot.val()
+        this.dispositivos = Object.keys(values).map(i => values[i])
+      })
     }
   }
 }
@@ -71,22 +48,16 @@ export default {
 
 <style>
 
-.dispositivo.complete{
+.dispositivo.working{
   border-left: 4px solid #3cd1c2;
 }
-.dispositivo.ongoing{
-  border-left: 4px solid #ffaa2c;
-}
-.dispositivo.overdue{
+.dispositivo.notworking{
   border-left: 4px solid #f83e70;
 }
-.v-chip.complete{
+.v-chip.working{
   background: #3cd1c2;
 }
-.v-chip.ongoing{
-  background: #ffaa2c;
-}
-.v-chip.overdue{
+.v-chip.notworking{
   background: #f83e70;
 }
 

@@ -7,7 +7,7 @@
       </v-card-title>
       <v-card-text>
         <v-form class="px-3" ref="form">
-          <v-text-field v-model="title" label="Nome" prepend-icon="edit" :rules="inputRules"></v-text-field>
+          <v-text-field v-model="nome" label="Nome" prepend-icon="edit" :rules="inputRules"></v-text-field>
           <v-text-field v-model="iddispositivo" label="Id dispositivo" prepend-icon="mdi-access-point" :rules="inputRules"></v-text-field>
 
           <v-spacer></v-spacer>
@@ -24,7 +24,7 @@
 export default {
   data() {
     return {
-      title: '',
+      nome: '',
       iddispositivo: '',
       inputRules: [
         v => !!v || 'This field is required',
@@ -33,9 +33,16 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async submit() {
       if(this.$refs.form.validate()) {
         console.log(this.title, this.iddispositivo)
+            const ref = this.$firebase.database().ref(`/${window.uid}/Dispositivos`) //o uid é a referencia
+            const id = this.iddispositivo
+            const nome = this.nome
+        const payload = {
+          nome
+        }
+        ref.child(id).set(payload)
       }
     }
   },
